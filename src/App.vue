@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div class="container">
-      <FilterList @changeFilter="changeFilter" />
+      <FilterList />
       <div class="todo">
-        <TaskInput @addTask="addTask" />
-        <ToDoList :to-do-list="filteredList" @deleteTask="deleteTask" @toggleDone="toggleDone" />
+        <TaskInput />
+        <ToDoList :to-do-list="filteredList" />
       </div>
     </div>
   </div>
@@ -14,8 +14,7 @@
 import TaskInput from './components/TaskInput.vue'
 import ToDoList from './components/ToDoList.vue'
 import FilterList from './components/FilterList.vue'
-import { mapState } from 'vuex'
-import { filter } from 'minimatch'
+import { mapGetters } from 'vuex'
 export default {
   name: 'app',
   components: {
@@ -23,43 +22,8 @@ export default {
     TaskInput,
     FilterList
   },
-  data() {
-    return {
-      toDoList: [],
-      filter: 'all'
-    }
-  },
   computed: {
-    filteredList() {
-      switch (this.filter) {
-        case 'all':
-          return this.toDoList
-          break;
-        case 'finished':
-          return this.toDoList.filter(item => item.done == true)
-          break;
-        case 'unfinished':
-          return this.toDoList.filter(item => item.done == false)
-          break;
-
-      }
-    }
-  },
-  methods: {
-    addTask(payload) {
-      console.log("From App")
-      this.toDoList.unshift({ id: this.toDoList.length + 1, name: payload, done: false })
-    },
-    toggleDone(payload) {
-      this.toDoList.find(item => item.id == payload).done = !this.toDoList.find(item => item.id == payload).done
-    },
-    deleteTask(payload) {
-      console.log("From App")
-      this.toDoList = this.toDoList.filter(item => item.id != payload)
-    },
-    changeFilter(payload) {
-      this.filter = payload
-    }
+    ...mapGetters(['filteredList'])
   }
 }
 </script>

@@ -4,7 +4,7 @@
     <ul>
       <transition-group name="fade">
         <li v-for="task in toDoList" :key="task.id">
-          <ToDoItem :task="task" @deleteTask="deleteTask" @toggleDone="toggleDone" />
+          <ToDoItem :task="task" />
         </li>
       </transition-group>
     </ul>
@@ -21,15 +21,6 @@ export default {
       required: true
     }
   },
-  methods: {
-    toggleDone(payload) {
-      this.$emit('toggleDone', payload)
-    },
-    deleteTask(payload) {
-      console.log("From ToDoList, emits event to parent:App")
-      this.$emit('deleteTask', payload)
-    }
-  }
 }
 </script>
 <style scoped>
@@ -45,7 +36,7 @@ li {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

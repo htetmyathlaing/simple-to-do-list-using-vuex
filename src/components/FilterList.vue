@@ -1,24 +1,46 @@
 <template>
   <div class="filters">
     <div>
-      <input type="radio" name="show" id="all" checked @change="changeFilter('all')" />
+      <input
+        type="radio"
+        name="show"
+        id="all"
+        :checked="filter=='all'? true:false"
+        @change="changeFilter('all')"
+      />
       <label for="all">Show All</label>
     </div>
     <div>
-      <input type="radio" name="show" id="finished" @change="changeFilter('finished')" />
+      <input
+        type="radio"
+        name="show"
+        id="finished"
+        :checked="filter=='finished'? true:false"
+        @change="changeFilter('finished')"
+      />
       <label for="finished">Finished</label>
     </div>
     <div>
-      <input type="radio" name="show" id="unfinished" @change="changeFilter('unfinished')" />
+      <input
+        type="radio"
+        name="show"
+        id="unfinished"
+        :checked="filter=='unfinished'? true:false"
+        @change="changeFilter('unfinished')"
+      />
       <label for="unfinished">Unfinished</label>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState(['filter'])
+  },
   methods: {
     changeFilter(filter) {
-      this.$emit('changeFilter', filter)
+      this.$store.commit('changeFilter', filter)
     }
   }
 }

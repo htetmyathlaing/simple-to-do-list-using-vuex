@@ -2,6 +2,7 @@
   <input type="text" placeholder="Enter Task" v-model="task" @keydown.enter="addTask" />
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -10,8 +11,7 @@ export default {
   },
   methods: {
     addTask() {
-      console.log("From ToDoItem, emits event to parent:App")
-      this.$emit('addTask', this.task)
+      this.$store.dispatch('addTask', this.task)
       this.task = ''
     }
   }

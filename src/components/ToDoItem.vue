@@ -1,11 +1,14 @@
 <template>
-  <div class="list-item-container" @click="toggleDone">
-    <label :class="task.done? 'finished': 'not-finished'">{{ task.name }}</label>
-    <span class="delete" @click="deleteTask()">&times;</span>
+  <div class="list-item-container">
+    <input type="checkbox" :id="'check'+task.id" :checked="task.done" @click="toggleDone(task.id)" />
+
+    <label :for="'check'+task.id" :class="task.done? 'finished': 'not-finished'">{{ task.name }}</label>
+    <span class="delete" @click="deleteTask(task.id)">&times;</span>
   </div>
 </template>
 <script>
 import ToDoItem from './ToDoItem.vue'
+import { mapMutations } from 'vuex'
 export default {
   props: {
     task: {
@@ -13,13 +16,7 @@ export default {
     },
   },
   methods: {
-    toggleDone() {
-      this.$emit('toggleDone', this.task.id)
-    },
-    deleteTask() {
-      console.log("From ToDoItem, emits event to parent:ToDoList")
-      this.$emit('deleteTask', this.task.id)
-    }
+    ...mapMutations(['toggleDone', 'deleteTask'])
   }
 }
 </script>
@@ -34,7 +31,7 @@ export default {
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.1);
 }
 .list-item-container:hover {
-  border: 1px solid rgba(51, 142, 245, 0.5);
+  border: 1px solid rgba(51, 142, 245);
 }
 .delete {
   color: red;
@@ -45,14 +42,35 @@ export default {
   transform: scale(1.5);
   transition: transform 0.3s;
 }
-
+input:hover,
+label:hover {
+  cursor: pointer;
+}
 .finished {
   color: red;
   text-decoration: line-through;
   transition: all 0.3s;
 }
 .not-finished {
+  color: green;
   transform: scale(1.1);
   transition: all 0.3s;
+}
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked) {
+  display: none;
+}
+
+[type="checkbox"]:not(:checked) + label:before {
+  content: "☐";
+  font-size: 1.5em;
+  margin-right: 5px;
+  display: inline-block;
+}
+[type="checkbox"]:checked + label:before {
+  content: "☑";
+  font-size: 1.5em;
+  margin-right: 5px;
+  display: inline-block;
 }
 </style>
