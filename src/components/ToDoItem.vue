@@ -7,18 +7,35 @@
   </div>
 </template>
 <script>
-import ToDoItem from './ToDoItem.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
+import useDeleteTask from "./../compositions/useDeleteTask";
+import { ref, reactive, toRefs, onUnmounted } from "@vue/composition-api";
 export default {
+  setup(props, context) {
+    console.log("Props :", props);
+    const deleteTask = useDeleteTask(context);
+    const testRef = ref("Test Ref");
+    const testReactive = reactive({
+      option1: "Option 1",
+      option2: "Option 2",
+      netest: {
+        test: "Data"
+      }
+    });
+    onUnmounted(() => {
+      console.log("ToDoItem unmounted", context.parent);
+    });
+    return { deleteTask, testRef, ...toRefs(testReactive) };
+  },
   props: {
     task: {
       required: true
-    },
+    }
   },
   methods: {
-    ...mapMutations(['toggleDone', 'deleteTask'])
+    ...mapMutations(["toggleDone"])
   }
-}
+};
 </script>
 <style scoped>
 .list-item-container {

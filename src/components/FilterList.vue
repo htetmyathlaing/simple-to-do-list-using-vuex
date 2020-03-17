@@ -33,17 +33,17 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(['filter'])
+    ...mapState(["filter"])
   },
   methods: {
     changeFilter(filter) {
-      this.$store.commit('changeFilter', filter)
+      this.$store.commit("changeFilter", filter);
     }
   }
-}
+};
 </script>
 <style scoped>
 .filters {

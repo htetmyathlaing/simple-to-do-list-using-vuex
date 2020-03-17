@@ -2,30 +2,50 @@
   <div id="app">
     <div class="container">
       <FilterList />
-      <div class="todo">
-        <TaskInput />
-        <ToDoList :to-do-list="filteredList" />
-      </div>
+      <RightList :filtered-list="filteredList" />
     </div>
   </div>
 </template>
 
+
 <script>
-import TaskInput from './components/TaskInput.vue'
-import ToDoList from './components/ToDoList.vue'
-import FilterList from './components/FilterList.vue'
-import { mapGetters } from 'vuex'
+import TaskInput from "./components/TaskInput.vue";
+import ToDoList from "./components/ToDoList.vue";
+import FilterList from "./components/FilterList.vue";
+import useToDoList from "./compositions/useToDoList";
+import { ref, computed, onMounted } from "@vue/composition-api";
+import { mapGetters } from "vuex";
+import RightList from "./components/RightList";
 export default {
-  name: 'app',
+  name: "app",
+  setup(props, context) {
+    console.log("Before beforeCreated hook");
+    onMounted(() => {
+      console.log("App Mounted", context);
+    });
+    const filteredList = useToDoList(context);
+    const count = ref(1);
+    const add = ref(0);
+    const computedData = computed(
+      () => `Updated Data: ${count.value + add.value}`
+    );
+
+    return { filteredList, count, computedData };
+  },
   components: {
     ToDoList,
     TaskInput,
-    FilterList
+    FilterList,
+    RightList
   },
   computed: {
-    ...mapGetters(['filteredList'])
+    ...mapGetters(["filteredList"])
+  },
+  created() {
+    console.log("At created hook");
+    console.log("From created", this);
   }
-}
+};
 </script>
 
 <style>

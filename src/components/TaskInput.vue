@@ -2,20 +2,20 @@
   <input type="text" placeholder="Enter Task" v-model="task" @keydown.enter="addTask" />
 </template>
 <script>
-
 export default {
+  name: "",
   data() {
     return {
-      task: ''
-    }
+      task: ""
+    };
   },
   methods: {
     addTask() {
-      this.$store.dispatch('addTask', this.task)
-      this.task = ''
+      this.$store.dispatch("addTask", this.task);
+      this.task = "";
     }
   }
-}
+};
 </script>
 <style scoped>
 input {

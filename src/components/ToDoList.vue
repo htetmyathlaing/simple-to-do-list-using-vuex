@@ -11,17 +11,23 @@
   </div>
 </template>
 <script>
-import ToDoItem from './ToDoItem.vue'
+import ToDoItem from "./ToDoItem.vue";
+import { onMounted } from "@vue/composition-api";
 export default {
+  setup(props, context) {
+    onMounted(() => {
+      // console.log("ToDoList mounted", context.parent);
+    });
+  },
   components: {
-    ToDoItem,
+    ToDoItem
   },
   props: {
     toDoList: {
       required: true
     }
-  },
-}
+  }
+};
 </script>
 <style scoped>
 .list-container {
@@ -40,7 +46,7 @@ li {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateY(30px);
 }
 </style>
  
